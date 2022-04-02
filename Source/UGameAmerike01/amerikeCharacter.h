@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include <GameFramework/SpringArmComponent.h>
 #include <Camera/CameraComponent.h>
+#include <Sound/SoundCue.h>
 #include "amerikeCharacter.generated.h"
 
 UCLASS()
@@ -24,6 +25,7 @@ protected:
 	void MoveForward(float value);
 	void MoveHorizontal(float value);
 	bool IsControllerOk(float& value) const;
+	void FireWeapon();
 
 public:	
 	// Called every frame
@@ -37,7 +39,10 @@ private:
 	USpringArmComponent* cameraBoom{};
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* followCamera{};
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Combat, meta = (AllowPrivateAccess = "true"))
+	UAnimMontage* hipFireMontage {};
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Combat, meta = (AllowPrivateAccess = "true"))
+	USoundCue* fireSFX {};
 	FRotator rotation{};
 	FRotator yawRotation{};
 	FVector direction{};

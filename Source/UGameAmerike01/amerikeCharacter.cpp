@@ -2,6 +2,8 @@
 
 
 #include "amerikeCharacter.h"
+#include "Animation/AnimInstance.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AamerikeCharacter::AamerikeCharacter()
@@ -15,7 +17,6 @@ AamerikeCharacter::AamerikeCharacter()
 	cameraBoom->bUsePawnControlRotation = true;
 	//Acomodar la cámara
 	cameraBoom->SocketOffset = FVector(0.f, 50.f, 50.f);
-
 
 	followCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Follow Camera"));
 	//Esto lo deja al final de la raiz del objeto al que lo estas agregando
@@ -48,6 +49,7 @@ void AamerikeCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AamerikeCharacter::FireWeapon);
 }
 
 void AamerikeCharacter::MoveForward(float value)
@@ -78,4 +80,21 @@ bool AamerikeCharacter::IsControllerOk(float& value) const
 {
 	return Controller != nullptr && value != 0.f;
 }
+
+void AamerikeCharacter::FireWeapon()
+{
+	if (fireSFX)
+	{
+		UGameplayStatics::PlaySound2D(this, fireSFX);
+	}
+
+	UAnimInstance* animInstance{GetMesh()->GetAnimInstance()};
+
+	if (animInstance && hipFireMontage)
+	{
+		animInstance->Montage_Play(hipFireMontage);
+		animInstance->Montage_JumpToSection(FName("WeaponFire"));
+	}
+}
+
 

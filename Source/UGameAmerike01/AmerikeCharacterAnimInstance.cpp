@@ -6,7 +6,7 @@
 
 void UAmerikeCharacterAnimInstance::UpdateAnimationProperties(float deltaTime)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Characterd started"));
+	//UE_LOG(LogTemp, Warning, TEXT("Characterd started"));
 	if (amerikeCharacter == nullptr)
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("Characterd started"));
